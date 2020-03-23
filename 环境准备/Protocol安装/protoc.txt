@@ -1,0 +1,13 @@
+安装 Protocol Buffers v3
+安装protoc编译器的目的是生成服务代码，从https://github.com/google/protobuf/releases下载已预编译好的二进制文件是安装protoc最简单的方法。
+1.1 解压文件
+1.2 将二进制文件所在的目录添加到环境变量PATH中。
+
+安装Go版本的protoc插件
+go get -u github.com/golang/protobuf/protoc-gen-go
+
+生成文件命令
+protoc --go_out=plugins=grpc:. hello.proto
+
+protoc -I ./ ProductService.proto --go_out=plugins=grpc:.
+

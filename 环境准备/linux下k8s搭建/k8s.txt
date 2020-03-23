@@ -1,0 +1,65 @@
+linux环境下搭建
+
+# 下载并安装 sealos, sealos 是个 golang 的二进制工具，直接下载拷贝到 bin 目录即可
+wget http://cuisongliu.oss-cn-beijing.aliyuncs.com/sealos/sealos&& \
+chmod +x sealos && mv sealos /usr/bin
+
+
+# 如果电脑不能直接用root登录
+vim /etc/lightdm/lightdm.conf
+末尾添加
+greeter-hide-user=true
+greeter-show-manual-login=true
+
+vim /etc/ssh/sshd_config
+修改
+# Authentication:
+LoginGraceTime 120
+PermitRootLogin yes
+StrictModes yes
+
+重启ssh
+/etc/init.d/ssh restart
+
+# 单机版
+单机版
+sealos init --passwd 密码 \
+--master 192.168.1.102  \
+--pkg-url https://sealyun.oss-cn-beijing.aliyuncs.com/413bd3624b2fb9e466601594b4f72072-1.17.0/kube1.17.0.tar.gz \
+--version v1.17.0
+
+// 新增 网络失败后解决
+sealos init --passwd ww0819 \
+	--master 192.168.1.102  \
+	--pkg-url /home/wsj/k8s/download/kube1.17.0.tar.gz \
+	--version v1.17.0 \
+    --interface  wlp3s0
+wlp3s0（网卡）
+
+
+测试是否成功
+# busybox.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: first-pod
+  labels:
+    app: bash
+    tir: backend
+spec:
+  containers:
+  - name: bash-container
+    image: docker.io/busybox
+    imagePullPolicy: IfNotPresent
+    command: ['sh', '-c', 'echo Hello Kubernetes! && sleep 3600']
+#执行如下命令
+kubectl apply -f busybox.yaml
+#查看部署情况
+kubectl get pod
+# 你会发现那个pod一直在pending，查看原因
+kubectl get pod/first-pod -o yaml
+#查看status字段，可以看到 message: '0/1 nodes are available: 1 node(s) had taints that the pod didn''t tolerate.' 所以了让我们的master结点可以部署（毕竟是只有一个结点），我们执行如下操作，去掉master的标签
+
+kubectl taint nodes --all node-role.kubernetes.io/master-
+#再度执行
+kubectl get pod #可以发现已经running了
