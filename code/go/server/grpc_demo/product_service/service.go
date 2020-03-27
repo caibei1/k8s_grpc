@@ -1,12 +1,12 @@
 package main
 
 import (
+	pb "github.com/caibei1/k8s_grpc/code/go/server/grpc_demo/product_service/pb"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"
 	"net"
-	pb"github/caibei1/k8s_grpc/code/go/server/grpc_demo/product_service/pb"
 
 	"time"
 

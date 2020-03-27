@@ -1,0 +1,11 @@
+namespace
+删除
+kubectl delete namespaces new-namespace
+
+deployment
+查看
+kubectl describe deployment nginx-app
+删除
+kubectl delete deployment nginx-app
+
+
