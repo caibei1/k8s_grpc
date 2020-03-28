@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment # 部署名字
+spec: # 规格
+  replicas: 2 # pod数量
+  selector:
+    matchLabels:
+      app: nginx-pod # 标签选择改名字的pod
+  template: # pod模板
+    metadata:
+      labels:
+        app: nginx-pod # pod名字
+    spec:
+      containers:
+      - name: nginx-container # 容器名字
+        image: nginx:latest # 容器镜像
+        ports:
+        - containerPort: 80 # 容器端口

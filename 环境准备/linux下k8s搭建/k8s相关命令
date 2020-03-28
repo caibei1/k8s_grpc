@@ -1,3 +1,5 @@
+参考：http://docs.kubernetes.org.cn/535.html
+
 namespace
 删除
 kubectl delete namespaces new-namespace
@@ -8,4 +10,9 @@ kubectl describe deployment nginx-app
 删除
 kubectl delete deployment nginx-app
 
+configMap
+查看
+kubectl get configmap
+创建
+kubectl create configmap text-configmap --from-file=a.json
 
