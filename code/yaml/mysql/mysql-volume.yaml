@@ -1,0 +1,42 @@
+# https://blog.csdn.net/weixin_38748858/article/details/102514721
+# 持久卷
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+  labels:
+   # app: k8sdemo-database
+spec:
+  capacity:
+    storage: 1Gi
+  # volumeMode field requires BlockVolume Alpha feature gate to be enabled.
+  # volumeMode字段要求启用BlockVolume Alpha功能门。
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce # 只能被挂载在某一个Kubernetes的工作节点
+  storageClassName: standard # 持久卷存储类型，它需要与持久卷申请的类型相匹配
+  local:
+    path: /home/wsj/k8s/Volume/mysql # 宿主机的目录
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - wsj-pc # Node的名字  kubectl get node查看
+---
+# 持久卷申请配置文件
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+  labels:
+  # app: k8sdemo-database
+spec:
+  accessModes:
+    - ReadWriteOnce
+  # storageClassName: local-storage
+  resources:
+    requests:
+      storage: 1Gi #1 GB

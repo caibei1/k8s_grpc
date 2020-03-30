@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  labels:
+    #app: mysql-app
+spec:
+  selector:
+    matchLabels:
+      app: mysql-pod
+  strategy:
+    type: Recreate # 更新时会将所有已存在的Pod杀死后再创建新Pod
+  template:
+    metadata:
+      labels:
+        app: mysql-pod
+    spec:
+      containers:
+        - image: mysql:5.7
+          name: mysql-container
+          imagePullPolicy: Always # always:总是拉取  IfNotPresent:默认值,本地有则使用本地镜像,不拉取 never:只使用本地镜像，从不拉取
+          env:  #  定义环境变量
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_USER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USER_NAME
+            - name: MYSQL_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USER_PASSWORD
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-configmap
+                  key: MYSQL_DATABASE
+          args: ["--default-authentication-plugin=mysql_native_password"]
+          ports:
+            - containerPort: 3306
+              name: portname
+          volumeMounts: # 挂载Pod上的卷到容器
+             - name: mysql-persistentstorage # Pod上卷的名字，与“volumes”名字匹配
+               mountPath: /var/lib/mysql # 挂载的Pod的目录
+      volumes: # 挂载持久卷到Pod
+        - name: mysql-persistentstorage # 持久卷名字， 与“volumMounts”名字匹配
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim  # 持久卷申请名字

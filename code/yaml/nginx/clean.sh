@@ -6,7 +6,7 @@ send "ww0819\r"
 send "rm -rf /home/wsj/k8s/k8s_grpc/yaml/* \r"
 send "kubectl delete deployment nginx-deployment \r"
 send "kubectl delete service nginx-service \r"
-send "kubectl delete pv mysql-pv \r"
+
 
 expect eof
 exit
