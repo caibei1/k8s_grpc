@@ -44,10 +44,10 @@ spec:
           ports:
             - containerPort: 3306
               name: portname
-          volumeMounts: # 挂载Pod上的卷到容器
+          volumeMounts: # 挂载Pod上的卷到容器 先把卷挂载到pod， 然后再把pod的卷挂载到容器
              - name: mysql-persistentstorage # Pod上卷的名字，与“volumes”名字匹配
                mountPath: /var/lib/mysql # 挂载的Pod的目录
       volumes: # 挂载持久卷到Pod
-        - name: mysql-persistentstorage # 持久卷名字， 与“volumMounts”名字匹配
+        - name: mysql-persistentstorage # 持久卷名字， 与“volumMounts”名字匹配即可
           persistentVolumeClaim:
-            claimName: mysql-pv-claim  # 持久卷申请名字
+            claimName: mysql-pv-claim  # 持久卷申请名字 需要与持久卷申请一样
