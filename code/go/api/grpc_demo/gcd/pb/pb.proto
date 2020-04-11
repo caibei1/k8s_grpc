@@ -1,0 +1,18 @@
+syntax = "proto3"; // protobuf 版本
+
+
+// 定义的请求消息体
+message GCDRequest {
+    uint64 a = 1;
+    uint64 b = 2;
+}
+
+// 定义的响应消息体
+message GCDResponse {
+    uint64 result = 1;
+}
+
+// 调用的远程服务,这是client请求server端的远程计算服务
+service GCDService {
+    rpc Compute (GCDRequest) returns (GCDResponse) {}
+}

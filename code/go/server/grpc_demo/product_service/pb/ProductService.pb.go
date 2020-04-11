@@ -451,7 +451,9 @@ func init() {
 	proto.RegisterType((*EmptyResponse)(nil), "EmptyResponse")
 }
 
-func init() { proto.RegisterFile("ProductService.proto", fileDescriptor_a39275549ecd65e1) }
+func init() {
+	proto.RegisterFile("ProductService.proto", fileDescriptor_a39275549ecd65e1)
+}
 
 var fileDescriptor_a39275549ecd65e1 = []byte{
 	// 470 bytes of a gzipped FileDescriptorProto
@@ -489,11 +491,11 @@ var fileDescriptor_a39275549ecd65e1 = []byte{
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ context.Context
-var _ grpc.ClientConn
+var _ grpc.ClientConnInterface
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion4
+const _ = grpc.SupportPackageIsVersion6
 
 // ProductServiceClient is the client API for ProductService service.
 //
@@ -510,10 +512,10 @@ type ProductServiceClient interface {
 }
 
 type productServiceClient struct {
-	cc *grpc.ClientConn
+	cc grpc.ClientConnInterface
 }
 
-func NewProductServiceClient(cc *grpc.ClientConn) ProductServiceClient {
+func NewProductServiceClient(cc grpc.ClientConnInterface) ProductServiceClient {
 	return &productServiceClient{cc}
 }
 
@@ -582,7 +584,7 @@ func (*UnimplementedProductServiceServer) QueryProductsInfo(ctx context.Context,
 	return nil, status.Errorf(codes.Unimplemented, "method QueryProductsInfo not implemented")
 }
 
-func RegisterProductServiceServer(s *grpc.Server, srv ProductServiceServer) {
+func RegisterProductServiceServer(s *grpc.Server, srv *server) {
 	s.RegisterService(&_ProductService_serviceDesc, srv)
 }
 
