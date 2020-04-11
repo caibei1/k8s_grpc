@@ -1,4 +1,5 @@
 # https://blog.csdn.net/weixin_38748858/article/details/102514721
+# https://www.cnblogs.com/caibao666/p/11268826.html
 # 持久卷
 apiVersion: v1
 kind: PersistentVolume
@@ -40,3 +41,23 @@ spec:
   resources:
     requests:
       storage: 1Gi #1 GB
+
+
+# 存储卷分类：1.临时存储卷。
+#                1）emptyDir，与pod生命周期相同，pod删除，数据消失。数据被pod里面多个容器共享。
+#                2）gitRepo，已废弃。
+#           2.节点存储卷。
+#                1）hostPath，将工作节点上的文件系统关联为pod的存储卷，从而使得容器访问节点文件系统上的数据,
+#                             pod一旦被重新调度至其他节点，那么它将无法再使用此前的数据
+#           3.网络存储卷
+#                1）NFS存储卷，k8s的nfs存储卷用于将某事先存在的nfs服务器上导出的存储空间挂载到pod中以供容器使用。
+#                            于emptyDir不同的是，NFS存储卷在pod对象终止后仅是被卸载而非删除。
+#                            另外，nfs是文件系统级共享服务，它支持同时存在的多路挂载请求。（参考前面第二个网址）
+#           4.RBD存储卷
+#
+#
+# emptyDir与hostPath属于节点级别的卷类型，emptyDir的生命周期与pod资源相同，而使用了hostPath卷的pod
+#  一旦被重新调度至其他节点，那么它将无法再使用此前的数据，因此，这两种类型都不具有持久性。要想使用持久类型
+#  的存储卷，就得使用网络存储系统，如nfs、ceph、glusterfs等，或者云端存储。k8s专门为网络存储系统设计了一
+#  种集群级别的资源PersisitentVolume，配置存储系统而后通过persistentVolumeClaim存储卷直接申请使用的机制
+#  大大简化了终端存储用户的配置过程，有效降低了使用难度。
