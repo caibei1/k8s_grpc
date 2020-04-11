@@ -3,10 +3,30 @@
 spawn su root
 expect "密码："
 send "ww0819\r"
+
+#
+# ----------删除文件----------
+#
 send "rm -rf /home/wsj/k8s/k8s_grpc/yaml/* \r"
+send "echo 删除文件成功...\r"
+
+
+#
+# ----------nginx----------
+#
 send "kubectl delete deployment nginx-deployment \r"
 send "kubectl delete service nginx-service \r"
+send "echo 删除nginx成功...\r"
+
+
+send "kubectl delete deployment mysql-deployment \r"
+send "kubectl delete service mysql-service \r"
+send "kubectl delete pvc mysql-pv-claim \r"
 send "kubectl delete pv mysql-pv \r"
+send "rm -rf /home/wsj/k8s/Volume/mysql \r"
+send "kubectl delete configmap mysql-configmap \r"
+send "kubectl delete secret mysql-secret\r"
+send "echo 删除mysql成功...\r"
 
 expect eof
 exit
