@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-test-service
+spec:
+  type: NodePort # 让请求能够从外部访问
+  selector:
+    app: mysql-test-pod # 把请求转发给带对应标签的pod
+  ports:
+    - nodePort: 30881 # 对外暴露的端口，本机通过localhost访问
+      port: 8000 # service的端
+      targetPort: 8000 # nginx pod的端口
