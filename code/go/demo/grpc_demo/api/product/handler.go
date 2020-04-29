@@ -1,7 +1,7 @@
 package main
 
 import (
-	pb "github.com/caibei1/k8s_grpc/code/go/demo/grpc_demo/product/pb"
+	pb "github.com/caibei1/k8s_grpc/code/go/demo/grpc_demo/api/product/pb"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"log"

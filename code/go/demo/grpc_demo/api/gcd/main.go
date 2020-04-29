@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	pb "github.com/caibei1/k8s_grpc/code/go/demo/grpc_demo/gcd/pb"
+	pb "github.com/caibei1/k8s_grpc/code/go/demo/grpc_demo/api/gcd/pb"
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
 )

@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	pb "github.com/caibei1/k8s_grpc/code/go/server/grpc_demo/gcd/pb"
+	pb "github.com/caibei1/k8s_grpc/code/go/demo/grpc_demo/server/gcd/pb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"
